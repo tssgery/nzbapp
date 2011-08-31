@@ -14,3 +14,16 @@ in the futures, we may choose to add
 - newznab (nzb indexing software)
 
 
+USAGE
+==================================================================
+This patch should be applied onto version 11.2 of the Turnkey LAMP stack
+found at: http://www.turnkeylinux.org/lampstack
+
+This can be done be either installing the LAMP appliance and applying the patch
+
+OR
+
+by patching the installable ISO image of the distribution
+
+tklpatch turnkey-lamp-11.2-lucid-x86.iso tklpatch/nzbapp
+
