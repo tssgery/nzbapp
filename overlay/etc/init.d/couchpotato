@@ -1,0 +1,58 @@
+#! /bin/sh
+
+# Author: RuudBurger
+# Edited by: daemox
+# Details: Cleaned up script to make it easier to enter in the USER info for the guide on Ainer.org.
+# Last updated: August 3, 2011
+
+### BEGIN INIT INFO
+# Provides:          CouchPotato application instance
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts instance of CouchPotato
+# Description:       starts instance of CouchPotato using start-stop-daemon
+### END INIT INFO
+
+#Required -- Must be changed!
+USER="nzb" #Set Ubuntu or Linux Mint username here.
+
+#Required -- Defaults provided (only change if you know you need to!).
+DAEMON=/usr/bin/python
+DAEMON_OPTS=" CouchPotato.py -q"
+NAME=couchpotato
+DESC=CouchPotato
+PID_FILE=/var/run/couchpotato.pid
+
+#Script -- No changes should be needed below!
+test -x $DAEMON || exit 0
+
+set -e
+
+case "$1" in
+  start)
+        echo "Starting $DESC"
+        start-stop-daemon -d /home/$USER/.couchpotato -c $USER --start --background --pidfile $PID_FILE  --make-pidfile --exec $DAEMON -- $DAEMON_OPTS
+        ;;
+  stop)
+        echo "Stopping $DESC"
+        start-stop-daemon --stop --pidfile $PID_FILE
+        rm $PID_FILE
+        ;;
+
+  restart|force-reload)
+        echo "Restarting $DESC"
+        start-stop-daemon --stop --pidfile $PID_FILE
+        rm $PID_FILE
+        sleep 15
+        start-stop-daemon -d /home/$USER/.couchpotato -c $USER --start --background --pidfile $PID_FILE  --make-pidfile --exec $DAEMON -- $DAEMON_OPTS
+        ;;
+  *)
+        N=/etc/init.d/$NAME
+        echo "Usage: $N {start|stop|restart|force-reload}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0

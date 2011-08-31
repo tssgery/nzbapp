@@ -1,0 +1,54 @@
+#! /bin/sh
+
+# Author: daemox
+# Basis: Parts of the script based on and inspired by work from
+#		tret (sabnzbd.org), beckstown (xbmc.org),
+#		and midgetspy (sickbeard.com).
+# Fixes: James (ainer.org), Tophicles (ainer.org), croontje (sickbeard.com)
+# Contact: http://www.ainer.org
+# Version: 3.0
+
+### BEGIN INIT INFO
+# Provides:          sickbeard
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts and stops sick beard
+# Description:       Sick Beard is an Usenet PVR. For more information see:
+#			http://www.sickbeard.com
+### END INIT INFO
+ 
+#Required -- Must Be Changed!
+USER="nzb" #Set Linux Mint, Ubuntu, or Debian username here.
+ 
+#Required -- Defaults Provided (only change if you know you need to).
+HOST="127.0.0.1" #Set Sick Beard address here.
+PORT="8081" #Set Sick Beard port here.
+ 
+#Optional -- Unneeded unless you have added a Username and Password to Sick Beard.
+SBUSR="" #Set Sick Beard Username (if you use one) here.
+SBPWD="" #Set Sick Beard Password (if you use one) here.
+ 
+#Script -- No changes needed below.
+case "$1" in
+start)
+#Start Sick Beard and send all messages to /dev/null.
+cd /home/$USER/.sickbeard
+echo "Starting Sick Beard"
+sudo -u $USER -H nohup python /home/$USER/.sickbeard/SickBeard.py -q > /dev/null 2>&1 &
+;;
+stop)
+#Shutdown Sick Beard and delete the index.html files that wget generates.
+echo "Stopping Sick Beard"
+wget -q --user=$SBUSR --password=$SBPWD "http://$HOST:$PORT/home/shutdown/" --delete-after
+sleep 6s
+;;
+*)
+echo "Usage: $0 {start|stop}"
+exit 1
+esac
+ 
+exit 0
+
+
