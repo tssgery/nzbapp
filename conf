@@ -1,0 +1,82 @@
+#!/bin/bash -ex
+
+HOSTNAME=nzbapp
+USERNAME=nzb
+
+# set hostname
+echo "$HOSTNAME" > /etc/hostname
+sed -i "s|127.0.1.1 \(.*\)|127.0.1.1 $HOSTNAME|" /etc/hosts
+
+# create the nzb userid (which all the nzb daemons run as)
+groupadd nzb
+useradd -c "NZB App userid" -d /home/nzb -g nzb -m -s /bin/bash "$USERNAME"
+chown -R nzb:nzb /home/nzb
+
+# add the python installation tools and sudo
+apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get -y \
+    -o DPkg::Options::=--force-confdef \
+    -o DPkg::Options::=--force-confold \
+    install python-software-properties sudo
+
+####################################################
+# INSTALL SABNZBD
+####################################################
+
+# add the repo 
+add-apt-repository ppa:jcfp/ppa
+apt-get update
+# install SABnzbd
+DEBIAN_FRONTEND=noninteractive apt-get -y \
+    -o DPkg::Options::=--force-confdef \
+    -o DPkg::Options::=--force-confold \
+    install sabnzbdplus sabnzbdplus-theme-mobile
+# set it to start automatically
+update-rc.d sabnzbdplus defaults
+
+# add it to the list of services in config console
+sed -i "s|Web shell:|SABnzbd:    http://\$ipaddr:8080\nWeb shell:|" /etc/confconsole/services.txt
+
+
+####################################################
+# INSTALL SICKBEARD
+####################################################
+cd /home/$USERNAME
+git clone git://github.com/midgetspy/Sick-Beard.git .sickbeard
+chown -R nzb:nzb .sickbeard
+
+# set it to start automatically
+update-rc.d sickbeard defaults
+
+# add it to the list of services in config console
+sed -i "s|Web shell:|Sickbeard:  http://\$ipaddr:8081\nWeb shell:|" /etc/confconsole/services.txt
+
+
+####################################################
+# INSTALL COUCHPOTATO 
+####################################################
+cd /home/$USERNAME
+git clone git://github.com/RuudBurger/CouchPotato.git .couchpotato
+chown -R nzb:nzb .couchpotato
+
+# set it to start automatically
+update-rc.d couchpotato defaults
+sed -i "s|port = 5000|port = 8085|" /home/nzb/config/config.ini
+chown nzb:nzb /home/nzb/config/config.ini
+mv /home/nzb/config/config.ini /home/nzb/.couchpotato
+
+# change the port to 8085!
+
+# add it to the list of services in config console
+sed -i "s|Web shell:|CouchPotato: http://\$ipaddr:8085\nWeb shell:|" /etc/confconsole/services.txt
+
+chown -R nzb:nzb /home/nzb
+
+####################################################
+# done!
+####################################################
+exit
+
+
+
+
