@@ -61,7 +61,6 @@ chown -R nzb:nzb .couchpotato
 
 # set it to start automatically
 update-rc.d couchpotato defaults
-sed -i "s|port = 5000|port = 8085|" /home/nzb/config/config.ini
 chown nzb:nzb /home/nzb/config/config.ini
 mv /home/nzb/config/config.ini /home/nzb/.couchpotato
 
