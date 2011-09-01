@@ -40,7 +40,7 @@ sed -i "s|Web shell:|SABnzbd:      http://\$ipaddr:8080\nWeb shell:|" /etc/confc
 # move in the config file
 mkdir /home/nzb/.sabnzbd
 chown -R nzb:nzb /home/nzb/.sabnzbd
-mv /home/nzb/config/sabnzbd.ini /home/nzb/.sabnzbd/sabnzbd.ini
+mv /home/nzb/config/.sabnzbd/sabnzbd.ini /home/nzb/.sabnzbd/sabnzbd.ini
 
 
 ####################################################
@@ -56,6 +56,8 @@ update-rc.d sickbeard defaults
 # add it to the list of services in config console
 sed -i "s|Web shell:|Sickbeard:    http://\$ipaddr:8081\nWeb shell:|" /etc/confconsole/services.txt
 
+mv /home/nzb/config/.sickbeard/config.ini /home/nzb/.sickbeard
+
 
 ####################################################
 # INSTALL COUCHPOTATO 
@@ -66,8 +68,8 @@ chown -R nzb:nzb .couchpotato
 
 # set it to start automatically
 update-rc.d couchpotato defaults
-chown nzb:nzb /home/nzb/config/config.ini
-mv /home/nzb/config/config.ini /home/nzb/.couchpotato
+
+mv /home/nzb/config/.couchpotato/config.ini /home/nzb/.couchpotato
 
 # change the port to 8085!
 
