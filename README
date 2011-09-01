@@ -14,16 +14,38 @@ in the futures, we may choose to add
 - newznab (nzb indexing software)
 
 
+NOTES
+==================================================================
+nzbapp is configured as follows:
+- complete and incomplete dinaries are being placed in /srv/storage
+  if additional space is needed, it may be best to either create
+  an LVM at initial installtion time OR add a second disk to the 
+  installation, create a filesystem and mount it on /srv/storage
+- You must run through the SABnzbd setup wizard at:
+      http://<ipaddress>:8080
+- Note that SABnzbd will generate some API keys upon initial startup.
+  These keys must be specified in the Sickbeard and CouchPotato configuration 
+  screens for NZB files to be successfully sent between applications
+
+
+DONATIONS
+==================================================================
+If you want to send donations to keep this work going, please send them to
+the authours of SABnzbd, CouchPotato, SickBeard and/or Turnkey Linux.
+They are the heroes in this effort, not me.
+
+
 USAGE
 ==================================================================
-This patch should be applied onto version 11.2 of the Turnkey LAMP stack
-found at: http://www.turnkeylinux.org/lampstack
+This patch should be applied onto version 11.2 of the 
+Turnkey fileserver distribution found at:
+http://www.turnkeylinux.org/fileserver
 
-This can be done be either installing the LAMP appliance and applying the patch
+This can be done be either installing the fileserver appliance and applying the patch
 
 OR
 
 by patching the installable ISO image of the distribution
 
-tklpatch turnkey-lamp-11.2-lucid-x86.iso tklpatch/nzbapp
+tklpatch turnkey-fileserver-11.2-lucid-x86.iso tklpatch/nzbapp
 
