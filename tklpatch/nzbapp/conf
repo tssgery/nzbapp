@@ -30,12 +30,17 @@ apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get -y \
     -o DPkg::Options::=--force-confdef \
     -o DPkg::Options::=--force-confold \
-    install sabnzbdplus sabnzbdplus-theme-mobile
+    install sabnzbdplus sabnzbdplus-theme-mobile python-pyopenssl unrar par2
 # set it to start automatically
 update-rc.d sabnzbdplus defaults
 
 # add it to the list of services in config console
-sed -i "s|Web shell:|SABnzbd:    http://\$ipaddr:8080\nWeb shell:|" /etc/confconsole/services.txt
+sed -i "s|Web shell:|SABnzbd:      http://\$ipaddr:8080\nWeb shell:|" /etc/confconsole/services.txt
+
+# move in the config file
+mkdir /home/nzb/.sabnzbd
+chown -R nzb:nzb /home/nzb/.sabnzbd
+mv /home/nzb/config/sabnzbd.ini /home/nzb/.sabnzbd/sabnzbd.ini
 
 
 ####################################################
@@ -49,7 +54,7 @@ chown -R nzb:nzb .sickbeard
 update-rc.d sickbeard defaults
 
 # add it to the list of services in config console
-sed -i "s|Web shell:|Sickbeard:  http://\$ipaddr:8081\nWeb shell:|" /etc/confconsole/services.txt
+sed -i "s|Web shell:|Sickbeard:    http://\$ipaddr:8081\nWeb shell:|" /etc/confconsole/services.txt
 
 
 ####################################################
@@ -67,9 +72,17 @@ mv /home/nzb/config/config.ini /home/nzb/.couchpotato
 # change the port to 8085!
 
 # add it to the list of services in config console
-sed -i "s|Web shell:|CouchPotato: http://\$ipaddr:8085\nWeb shell:|" /etc/confconsole/services.txt
+sed -i "s|Web shell:|CouchPotato:  http://\$ipaddr:8085\nWeb shell:|" /etc/confconsole/services.txt
 
 chown -R nzb:nzb /home/nzb
+
+####################################################
+# Final tasks
+####################################################
+# since we're storing files in /srv/storage,
+# make it world writable
+chmod -R 777 /srv/storage
+# Would be nice to add nzb user to eXtplorer here
 
 ####################################################
 # done!

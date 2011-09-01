@@ -6,8 +6,10 @@
 #
 
 
-
+BASEAPP=fileserver
+TKLVER=11.2-lucid-x86
 BASE=turnkey-lamp-11.2-lucid-x86
+BASE=turnkey-$BASEAPP-$TKLVER
 BASEISO=$BASE.iso
 TARGET=turnkey-nzbapp-11.2-lucid-x86.iso
 
@@ -24,7 +26,7 @@ if [ ! -f "iso/${BASEISO}" ]; then
    fi
 
    # get the base iso image
-   wget -P iso http://downloads.sourceforge.net/project/turnkeylinux/turnkey-lamp/11.2-lucid-x86/$BASEISO
+   wget -P iso http://downloads.sourceforge.net/project/turnkeylinux/turnkey-$BASEAPP/$TKLVER/$BASEISO
 fi
 
 if [ ! -d build ]; then
