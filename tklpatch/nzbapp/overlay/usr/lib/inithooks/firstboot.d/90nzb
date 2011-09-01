@@ -1,0 +1,12 @@
+#!/bin/bash -e
+# copy configuration from SABnzbd to CouchPotato and SickBeard
+
+# get the KEYS 
+API_KEY=`cat /home/nzb/.sabnzbd/sabnzbd.ini | grep -w api_key | awk -F"=" '{print $NF}'`
+echo $API_KEY > /home/nzb/API_KEY
+
+NZB_KEY=`cat /home/nzb/.sabnzbd/sabnzbd.ini | grep -w nzb_key | awk -F"=" '{print $NF}'`
+echo $NZB_KEY > /home/nzb/NZB_KEY
+
+
+
