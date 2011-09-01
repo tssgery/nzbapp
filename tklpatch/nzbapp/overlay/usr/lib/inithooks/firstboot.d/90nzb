@@ -9,7 +9,7 @@ function randompass () {
                 randompassLength=8
         fi
  
-        pass=</dev/urandom tr -dc A-Fa-f0-9 | head -c $randompassLength
+        pass=</dev/urandom tr -dc a-f0-9 | head -c $randompassLength
         echo $pass
 }
 
