@@ -67,7 +67,7 @@ def main():
     htusers = "/var/www/extplorer/config/.htusers.php"
     for s in file(htusers).readlines():
         s = s.rstrip()
-        s = re.sub("\"nzb\",\"([a-z0-9]*)\"", "\"admin\",\"%s\"" % hashpass, s)
+        s = re.sub("\"nzb\",\"([a-z0-9]*)\"", "\"nzb\",\"%s\"" % hashpass, s)
         new.append(s)
 
     fh = file(htusers, "w")
