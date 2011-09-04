@@ -2,15 +2,16 @@
 
 HOSTNAME=nzbapp
 USERNAME=nzb
+GROUPNAME=nzb
 
 # set hostname
 echo "$HOSTNAME" > /etc/hostname
 sed -i "s|127.0.1.1 \(.*\)|127.0.1.1 $HOSTNAME|" /etc/hosts
 
 # create the nzb userid (which all the nzb daemons run as)
-groupadd nzb
-useradd -c "NZB App userid" -d /home/nzb -g nzb -m -s /bin/bash "$USERNAME"
-chown -R nzb:nzb /home/nzb
+groupadd $GROUPNAME
+useradd -c "NZB App userid" -d /home/$USERNAME -g $GROUPNAME -m -s /bin/bash "$USERNAME"
+chown -R $USERNAME:$GROUPNAME /home/$USERNAME
 
 # add the python installation tools and sudo
 apt-get update
@@ -38,9 +39,9 @@ update-rc.d sabnzbdplus defaults
 sed -i "s|Web shell:|SABnzbd:      http://\$ipaddr:8080\nWeb shell:|" /etc/confconsole/services.txt
 
 # move in the config file
-mkdir /home/nzb/.sabnzbd
-chown -R nzb:nzb /home/nzb/.sabnzbd
-mv /home/nzb/config/.sabnzbd/sabnzbd.ini /home/nzb/.sabnzbd/sabnzbd.ini
+mkdir /home/$USERNAME/.sabnzbd
+chown -R $USERNAME:$GROUPNAME /home/$USERNAME/.sabnzbd
+mv /home/$USERNAME/config/.sabnzbd/sabnzbd.ini /home/$USERNAME/.sabnzbd/sabnzbd.ini
 
 
 ####################################################
@@ -48,7 +49,7 @@ mv /home/nzb/config/.sabnzbd/sabnzbd.ini /home/nzb/.sabnzbd/sabnzbd.ini
 ####################################################
 cd /home/$USERNAME
 git clone git://github.com/midgetspy/Sick-Beard.git .sickbeard
-chown -R nzb:nzb .sickbeard
+chown -R $USERNAME:$GROUPNAME .sickbeard
 
 # set it to start automatically
 update-rc.d sickbeard defaults
@@ -56,7 +57,7 @@ update-rc.d sickbeard defaults
 # add it to the list of services in config console
 sed -i "s|Web shell:|Sickbeard:    http://\$ipaddr:8081\nWeb shell:|" /etc/confconsole/services.txt
 
-mv /home/nzb/config/.sickbeard/config.ini /home/nzb/.sickbeard
+mv /home/$USERNAME/config/.sickbeard/config.ini /home/$USERNAME/.sickbeard
 
 
 ####################################################
@@ -64,19 +65,19 @@ mv /home/nzb/config/.sickbeard/config.ini /home/nzb/.sickbeard
 ####################################################
 cd /home/$USERNAME
 git clone git://github.com/RuudBurger/CouchPotato.git .couchpotato
-chown -R nzb:nzb .couchpotato
+chown -R $USERNAME:$GROUPNAME .couchpotato
 
 # set it to start automatically
 update-rc.d couchpotato defaults
 
-mv /home/nzb/config/.couchpotato/config.ini /home/nzb/.couchpotato
+mv /home/$USERNAME/config/.couchpotato/config.ini /home/$USERNAME/.couchpotato
 
 # change the port to 8085!
 
 # add it to the list of services in config console
 sed -i "s|Web shell:|CouchPotato:  http://\$ipaddr:8085\nWeb shell:|" /etc/confconsole/services.txt
 
-chown -R nzb:nzb /home/nzb
+chown -R $USERNAME:$GROUPNAME /home/$USERNAME
 
 ####################################################
 # Final tasks
