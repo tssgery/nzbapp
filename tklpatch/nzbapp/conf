@@ -36,7 +36,7 @@ DEBIAN_FRONTEND=noninteractive apt-get -y \
 update-rc.d sabnzbdplus defaults
 
 # add it to the list of services in config console
-sed -i "s|Web shell:|SABnzbd:      http://\$ipaddr:8080\nWeb shell:|" /etc/confconsole/services.txt
+sed -i "s|File Manager:|FrontPage   :|" /etc/confconsole/services.txt
 
 # move in the config file
 mkdir /home/$USERNAME/.sabnzbd
@@ -55,7 +55,7 @@ chown -R $USERNAME:$GROUPNAME .sickbeard
 update-rc.d sickbeard defaults
 
 # add it to the list of services in config console
-sed -i "s|Web shell:|Sickbeard:    http://\$ipaddr:8081\nWeb shell:|" /etc/confconsole/services.txt
+# sed -i "s|Web shell:|Sickbeard:    http://\$ipaddr:8081\nWeb shell:|" /etc/confconsole/services.txt
 
 mv /home/$USERNAME/config/.sickbeard/config.ini /home/$USERNAME/.sickbeard
 
@@ -75,7 +75,7 @@ mv /home/$USERNAME/config/.couchpotato/config.ini /home/$USERNAME/.couchpotato
 # change the port to 8085!
 
 # add it to the list of services in config console
-sed -i "s|Web shell:|CouchPotato:  http://\$ipaddr:8085\nWeb shell:|" /etc/confconsole/services.txt
+# sed -i "s|Web shell:|CouchPotato:  http://\$ipaddr:8085\nWeb shell:|" /etc/confconsole/services.txt
 
 ####################################################
 # INSTALL MEDIAFRONTPAGE
@@ -97,6 +97,13 @@ chown -R $USERNAME:$GROUPNAME /home/$USERNAME
 # make it world writable
 chmod -R 777 /srv/storage
 # Would be nice to add nzb user to eXtplorer here
+
+# Create the service file
+echo "MediaFrontPage: http://\$ipaddr" > /etc/confconsole/services.txt
+echo "File Manager:   http://\$ipaddr/extplorer" >> /etc/confconsole/services.txt
+echo "Web Shell:      http://\$ipaddr:12320" >> /etc/confconsole/services.txt
+echo "Webmin:         http://\$ipaddr:12321" >> /etc/confconsole/services.txt
+echo "SMB/CIFS:       \\\\\$ipaddr (ports 139/445)" >> /etc/confconsole/services.txt
 
 ####################################################
 # done!
