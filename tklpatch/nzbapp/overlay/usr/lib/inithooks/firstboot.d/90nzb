@@ -52,6 +52,9 @@ sed -i "s|NZB_HOSTNAME|$HOSTNAME|" $CONFIG
 echo $SAB_APIKEY > /home/nzb/SAB_APIKEY
 echo $SAB_NZBKEY > /home/nzb/SAB_NZBKEY
 
+chown -R www-data:www-data /var/www/mfp
+chmod -R 777 /var/www/mfp
+
 # restart the lighthttpd daemon
 /etc/init.d/lighttpd restart
 
