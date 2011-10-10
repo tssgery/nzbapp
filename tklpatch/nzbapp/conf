@@ -54,9 +54,6 @@ chown -R $USERNAME:$GROUPNAME .sickbeard
 # set it to start automatically
 update-rc.d sickbeard defaults
 
-# add it to the list of services in config console
-# sed -i "s|Web shell:|Sickbeard:    http://\$ipaddr:8081\nWeb shell:|" /etc/confconsole/services.txt
-
 mv /home/$USERNAME/config/.sickbeard/config.ini /home/$USERNAME/.sickbeard
 
 
@@ -72,10 +69,6 @@ update-rc.d couchpotato defaults
 
 mv /home/$USERNAME/config/.couchpotato/config.ini /home/$USERNAME/.couchpotato
 
-# change the port to 8085!
-
-# add it to the list of services in config console
-# sed -i "s|Web shell:|CouchPotato:  http://\$ipaddr:8085\nWeb shell:|" /etc/confconsole/services.txt
 
 ####################################################
 # INSTALL MEDIAFRONTPAGE
@@ -100,11 +93,13 @@ chmod -R 777 /srv/storage
 # Would be nice to add nzb user to eXtplorer here
 
 # Create the service file
-echo "MediaFrontPage: http://\$ipaddr" > /etc/confconsole/services.txt
-echo "File Manager:   http://\$ipaddr/extplorer" >> /etc/confconsole/services.txt
-echo "Web Shell:      http://\$ipaddr:12320" >> /etc/confconsole/services.txt
-echo "Webmin:         http://\$ipaddr:12321" >> /etc/confconsole/services.txt
-echo "SMB/CIFS:       \\\\\$ipaddr (ports 139/445)" >> /etc/confconsole/services.txt
+echo "MediaFrontPage: http://nzbapp" > /etc/confconsole/services.txt
+echo "File Manager:   http://nzbapp/extplorer" >> /etc/confconsole/services.txt
+echo "Web Shell:      http://nzbapp:12320" >> /etc/confconsole/services.txt
+echo "Webmin:         http://nzbapp:12321" >> /etc/confconsole/services.txt
+echo "SMB/CIFS:       \\\\nzbapp (ports 139/445)" >> /etc/confconsole/services.txt
+echo " " >> /etc/confconsole/services.txt
+echo "IP Address assigned: \$ipaddr " >> /etc/confconsole/services.txt
 
 ####################################################
 # done!

@@ -1,0 +1,22 @@
+#!/bin/bash -e
+# set the hostname
+
+. /etc/default/inithooks
+
+OLDHOSTNAME=`hostname`
+
+[ -e $INITHOOKS_CONF ] && . $INITHOOKS_CONF
+$INITHOOKS_PATH/bin/hostname.py nzb --hostname="$HOSTNAME"
+
+hostname -F /etc/hostname
+
+# replace the HOSTNAME in the lighthttpd conf file AND MFP
+HOSTNAME=`hostname`
+CONFIG=/var/www/mfp/config.ini
+sed -i "s|URL = \(.*\)|URL = \"$HOSTNAME\"|" $CONFIG
+CONFIG=/etc/lighttpd/lighttpd.conf
+sed -i "s|http://$OLDHOSTNAME|http://$HOSTNAME|" $CONFIG
+CONFIG=/etc/confconsole/services.txt
+sed -i "s|$OLDHOSTNAME|$HOSTNAME|" $CONFIG
+
+

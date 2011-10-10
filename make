@@ -31,7 +31,6 @@ if [ $# -gt 0 ]; then
    git tag -a "${TAG}" -m "${COMMENT}"
    # tag the code and set the variabnle names
    TARGET="turnkey-nzbapp-11.2-lucid-x86-$TAG.iso"
-   PTARGET="nzbapp-$TAG.tar.gz"
 fi
 
 
@@ -63,7 +62,8 @@ cd build
 # run tklpatch
 tklpatch-bundle ../tklpatch/nzbapp
 mv nzbapp.tar.gz $PTARGET
-tklpatch ../iso/$BASEISO ../tklpatch/nzbapp
+# tklpatch ../iso/$BASEISO ../tklpatch/nzbapp
+tklpatch ../iso/$BASEISO $PTARGET
 mv $BASE-patched.iso $TARGET
 
 
