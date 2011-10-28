@@ -8,7 +8,6 @@
 
 BASEAPP=fileserver
 TKLVER=11.2-lucid-x86
-BASE=turnkey-lamp-11.2-lucid-x86
 BASE=turnkey-$BASEAPP-$TKLVER
 BASEISO=$BASE.iso
 VER=`date +"%Y%m%d"`
@@ -62,8 +61,7 @@ cd build
 # run tklpatch
 tklpatch-bundle ../tklpatch/nzbapp
 mv nzbapp.tar.gz $PTARGET
-# tklpatch ../iso/$BASEISO ../tklpatch/nzbapp
-tklpatch ../iso/$BASEISO $PTARGET
+TKLPATCH_LABEL="NZBAPPP" tklpatch ../iso/$BASEISO $PTARGET
 mv $BASE-patched.iso $TARGET
 
 

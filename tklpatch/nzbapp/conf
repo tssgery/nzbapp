@@ -73,7 +73,7 @@ mv /home/$USERNAME/config/.couchpotato/config.ini /home/$USERNAME/.couchpotato
 ####################################################
 # INSTALL MEDIAFRONTPAGE
 ####################################################
-git clone git://github.com/tssgery/mediafrontpage.git "/var/www/mfp"
+git clone git://github.com/DejaVu/mediafrontpage.git "/var/www/mfp"
 mkdir /var/www/mfp/sbpcache
 mv /home/$USERNAME/config/mfp/* /var/www/mfp/
 chown -R www-data:www-data /var/www/mfp
@@ -90,16 +90,15 @@ chown -R $USERNAME:$GROUPNAME /home/$USERNAME
 # since we're storing files in /srv/storage,
 # make it world writable
 chmod -R 777 /srv/storage
-# Would be nice to add nzb user to eXtplorer here
 
 # Create the service file
 echo "MediaFrontPage: http://nzbapp" > /etc/confconsole/services.txt
 echo "File Manager:   http://nzbapp/extplorer" >> /etc/confconsole/services.txt
 echo "Web Shell:      http://nzbapp:12320" >> /etc/confconsole/services.txt
 echo "Webmin:         http://nzbapp:12321" >> /etc/confconsole/services.txt
-echo "SMB/CIFS:       \\\\nzbapp (ports 139/445)" >> /etc/confconsole/services.txt
+echo "SMB/CIFS:       nzbapp (ports 139/445)" >> /etc/confconsole/services.txt
 echo " " >> /etc/confconsole/services.txt
-echo "IP Address assigned: \$ipaddr " >> /etc/confconsole/services.txt
+echo "IP Address:     \$ipaddr " >> /etc/confconsole/services.txt
 
 ####################################################
 # done!
