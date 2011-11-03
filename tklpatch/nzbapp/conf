@@ -36,7 +36,7 @@ DEBIAN_FRONTEND=noninteractive apt-get -y \
 update-rc.d sabnzbdplus defaults
 
 # add it to the list of services in config console
-sed -i "s|File Manager:|FrontPage   :|" /etc/confconsole/services.txt
+# sed -i "s|File Manager:|FrontPage   :|" /etc/confconsole/services.txt
 
 # move in the config file
 mkdir /home/$USERNAME/.sabnzbd
@@ -78,6 +78,9 @@ mkdir /var/www/mfp/sbpcache
 mv /home/$USERNAME/config/mfp/* /var/www/mfp/
 chown -R www-data:www-data /var/www/mfp
 chmod -R 777 /var/www/mfp
+# Slight mods to mfp
+# the RSS widge is taking the full width of the screen, we need to change that
+sed -i "s|table-layout: fixed|/* table-layout: fixed */|" /var/www/mfp/css/front.css
 
 cp /home/$USERNAME/config/lighttpd/lighttpd.conf /etc/lighttpd
 
