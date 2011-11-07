@@ -69,6 +69,21 @@ update-rc.d couchpotato defaults
 
 mv /home/$USERNAME/config/.couchpotato/config.ini /home/$USERNAME/.couchpotato
 
+####################################################
+# INSTALL  HEADPHONES
+####################################################
+cd /home/$USERNAME
+git clone git://github.com/rembo10/headphones.git .headphones
+chown -R $USERNAME:$GROUPNAME .headphones
+
+# set it to start automatically
+cp .headphones/init.ubuntu /etc/init.d/headphones
+chmod +x /etc/init.d/headphones
+sed -i "s|APP_PATH=\(.*\)|APP_PATH=/home/$USERNAME/.headphones|" /etc/init.d/headphones
+update-rc.d headphones defaults
+
+mv /home/$USERNAME/config/.headphones/config.ini /home/$USERNAME/.headphones
+
 
 ####################################################
 # INSTALL MEDIAFRONTPAGE
@@ -93,6 +108,9 @@ chown -R $USERNAME:$GROUPNAME /home/$USERNAME
 # since we're storing files in /srv/storage,
 # make it world writable
 chmod -R 777 /srv/storage
+
+# setup iptables to allow traffic on our ports
+# iptables -A INPUT -i eth0 -p tcp -m multiport --dports 8080,8081,8085 -m state --state NEW,ESTABLISHED -j ACCEPT
 
 # Create the service file
 echo "MediaFrontPage: http://nzbapp" > /etc/confconsole/services.txt
