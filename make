@@ -5,14 +5,14 @@
 # - installable iso image
 #
 
-
+APPNAME=nzbapp
 BASEAPP=fileserver
 TKLVER=11.2-lucid-x86
 BASE=turnkey-$BASEAPP-$TKLVER
 BASEISO=$BASE.iso
 VER=`date +"%Y%m%d"`
-TARGET="turnkey-nzbapp-11.2-lucid-x86.iso"
-PTARGET="nzbapp.tar.gz"
+TARGET="turnkey-$APPNAME-$TKLVER.iso"
+PTARGET="$APPNAME.tar.gz"
 
 if [ $# -eq 1 ]; then
    TAG=$1
@@ -29,7 +29,7 @@ fi
 if [ $# -gt 0 ]; then
    git tag -a "${TAG}" -m "${COMMENT}"
    # tag the code and set the variabnle names
-   TARGET="turnkey-nzbapp-11.2-lucid-x86-$TAG.iso"
+   TARGET="turnkey-$APPNAME-11.2-lucid-x86-$TAG.iso"
 fi
 
 
@@ -59,9 +59,9 @@ fi
 cd build
 
 # run tklpatch
-tklpatch-bundle ../tklpatch/nzbapp
-mv nzbapp.tar.gz $PTARGET
-TKLPATCH_LABEL="NZBAPPP" tklpatch ../iso/$BASEISO $PTARGET
+tklpatch-bundle ../tklpatch/$APPNAME
+mv $APPNAME.tar.gz $PTARGET
+TKLPATCH_LABEL="$APPNAME" tklpatch ../iso/$BASEISO $PTARGET
 mv $BASE-patched.iso $TARGET
 
 
