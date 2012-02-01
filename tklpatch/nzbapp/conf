@@ -61,7 +61,7 @@ chown -R $USERNAME:$GROUPNAME .sickbeard
 update-rc.d sickbeard defaults
 
 mv /home/$USERNAME/config/.sickbeard/config.ini /home/$USERNAME/.sickbeard
-
+mv /home/$USERNAME/config/.sickbeard/autoProcessTV/autoProcessTV.cfg /home/$USERNAME/.sickbeard/autoProcessTV/autoProcessTV.cfg
 
 ####################################################
 # INSTALL COUCHPOTATO 
