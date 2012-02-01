@@ -13,6 +13,12 @@ groupadd $GROUPNAME
 useradd -c "NZB App userid" -d /home/$USERNAME -g $GROUPNAME -m -s /bin/bash "$USERNAME"
 chown -R $USERNAME:$GROUPNAME /home/$USERNAME
 
+# Change ownership of log folders
+chown -R $USERNAME:$GROUPNAME /var/log/sabnzbdplus
+chown -R $USERNAME:$GROUPNAME /var/log/sickbeard
+chown -R $USERNAME:$GROUPNAME /var/log/couchpotato #TODO: Configure couchpotato logs when available
+chown -R $USERNAME:$GROUPNAME /var/log/headphones 
+
 # add the python installation tools and sudo
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get -y \
