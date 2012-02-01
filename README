@@ -37,8 +37,8 @@ They are the heroes in this effort, not me.
 
 USAGE
 ==================================================================
-This patch should be applied onto version 11.2 of the 
-Turnkey fileserver distribution found at:
+This patch should be applied onto version 11.2 or version 11.3
+of the Turnkey fileserver distribution found at:
 http://www.turnkeylinux.org/fileserver
 
 This can be done be either installing the fileserver appliance and applying the patch
@@ -48,4 +48,6 @@ OR
 by patching the installable ISO image of the distribution
 
 tklpatch turnkey-fileserver-11.2-lucid-x86.iso tklpatch/nzbapp
+or
+tklpatch turnkey-fileserver-11.3-lucid-x86.iso tklpatch/nzbapp
 
