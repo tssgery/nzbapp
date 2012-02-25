@@ -29,7 +29,6 @@ DEBIAN_FRONTEND=noninteractive apt-get -y \
 ####################################################
 # INSTALL SABNZBD
 ####################################################
-
 # add the repo 
 add-apt-repository ppa:jcfp/ppa
 apt-get update
@@ -40,9 +39,6 @@ DEBIAN_FRONTEND=noninteractive apt-get -y \
     install sabnzbdplus sabnzbdplus-theme-mobile python-pyopenssl unrar par2 php5-curl
 # set it to start automatically
 update-rc.d sabnzbdplus defaults
-
-# add it to the list of services in config console
-# sed -i "s|File Manager:|FrontPage   :|" /etc/confconsole/services.txt
 
 # move in the config file
 mkdir /home/$USERNAME/.sabnzbd
@@ -92,16 +88,19 @@ mv /home/$USERNAME/config/.headphones/config.ini /home/$USERNAME/.headphones
 
 
 ####################################################
-# INSTALL MEDIAFRONTPAGE
+# INSTALL MARASCHINO
 ####################################################
-git clone git://github.com/DejaVu/mediafrontpage.git "/var/www/mfp"
-mkdir /var/www/mfp/sbpcache
-mv /home/$USERNAME/config/mfp/* /var/www/mfp/
-chown -R www-data:www-data /var/www/mfp
-chmod -R 777 /var/www/mfp
-# Slight mods to mfp
-# the RSS widge is taking the full width of the screen, we need to change that
-sed -i "s|table-layout: fixed|/* table-layout: fixed */|" /var/www/mfp/css/front.css
+cd /home/$USERNAME
+git clone https://github.com/mrkipling/maraschino.git .maraschino
+cp .maraschino/settings_example.py .maraschino/settings.py
+sed -i "s|DATABASE =\(.*\)|DATABASE='/home/$USERNAME/.maraschino/maraschino.db'|" .maraschino/settings.py
+# set it to start automatically
+cp .maraschino/initd /etc/init.d/maraschino
+chmod +x /etc/init.d/maraschino
+sed -i "s|APP_PATH=\(.*\)|APP_PATH=/home/$USERNAME/.maraschino|" /etc/init.d/maraschino
+sed -i "s|RUN_AS=\(.*\)|RUN_AS=$USERNAME|" /etc/init.d/maraschino
+update-rc.d maraschino defaults
+chown -R $USERNAME:$GROUPNAME .maraschino
 
 cp /home/$USERNAME/config/lighttpd/lighttpd.conf /etc/lighttpd
 
@@ -119,7 +118,7 @@ chmod -R 777 /srv/storage
 # iptables -A INPUT -i eth0 -p tcp -m multiport --dports 8080,8081,8085 -m state --state NEW,ESTABLISHED -j ACCEPT
 
 # Create the service file
-echo "MediaFrontPage: http://nzbapp" > /etc/confconsole/services.txt
+echo "Maraschino:     http://nzbapp" > /etc/confconsole/services.txt
 echo "File Manager:   http://nzbapp/extplorer" >> /etc/confconsole/services.txt
 echo "Web Shell:      http://nzbapp:12320" >> /etc/confconsole/services.txt
 echo "Webmin:         http://nzbapp:12321" >> /etc/confconsole/services.txt

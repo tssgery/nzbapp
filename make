@@ -7,7 +7,7 @@
 
 APPNAME=nzbapp
 BASEAPP=fileserver
-TKLVER=11.2-lucid-x86
+TKLVER=11.3-lucid-x86
 BASE=turnkey-$BASEAPP-$TKLVER
 BASEISO=$BASE.iso
 VER=`date +"%Y%m%d"`
