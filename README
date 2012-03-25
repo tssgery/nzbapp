@@ -7,11 +7,9 @@ Turnkey Linux installation of Ubuntu 10.04 (initially) along with the following 
 - SABnzbd
 - CouchPotato (for locating NZB files for movies)
 - Sickbeard (for locating NZB files for TV shows)
-
-in the futures, we may choose to add
-
 - Headphones (for locating NZB files for music releases)
-- newznab (nzb indexing software)
+- Maraschino as a front end
+
 
 
 NOTES
@@ -23,15 +21,12 @@ nzbapp is configured as follows:
   installation, create a filesystem and mount it on /srv/storage
 - You must run through the SABnzbd setup wizard at:
       http://<ipaddress>:8080
-- Note that SABnzbd will generate some API keys upon initial startup.
-  These keys must be specified in the Sickbeard and CouchPotato configuration 
-  screens for NZB files to be successfully sent between applications
 
 
 DONATIONS
 ==================================================================
 If you want to send donations to keep this work going, please send them to
-the authours of SABnzbd, CouchPotato, SickBeard and/or Turnkey Linux.
+the authors of the included programs and/or Turnkey Linux.
 They are the heroes in this effort, not me.
 
 
