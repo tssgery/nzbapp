@@ -36,7 +36,8 @@ apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get -y \
     -o DPkg::Options::=--force-confdef \
     -o DPkg::Options::=--force-confold \
-    install sabnzbdplus sabnzbdplus-theme-mobile python-pyopenssl unrar par2 php5-curl
+    install sabnzbdplus sabnzbdplus-theme-mobile python-pyopenssl unrar par2 php5-curl 
+
 # set it to start automatically
 update-rc.d sabnzbdplus defaults
 
@@ -90,6 +91,14 @@ mv /home/$USERNAME/config/.headphones/config.ini /home/$USERNAME/.headphones
 ####################################################
 # INSTALL MARASCHINO
 ####################################################
+# install dependencies
+DEBIAN_FRONTEND=noninteractive apt-get -y \
+    -o DPkg::Options::=--force-confdef \
+    -o DPkg::Options::=--force-confold \
+    install \
+    sqlite3
+
+
 cd /home/$USERNAME
 git clone https://github.com/mrkipling/maraschino.git .maraschino
 cp .maraschino/settings_example.py .maraschino/settings.py
@@ -97,6 +106,7 @@ sed -i "s|DATABASE =\(.*\)|DATABASE='/home/$USERNAME/.maraschino/maraschino.db'|
 # set it to start automatically
 cp .maraschino/initd /etc/init.d/maraschino
 chmod +x /etc/init.d/maraschino
+mv /home/nzb/maraschino.db /home/nzb/.maraschino
 sed -i "s|APP_PATH=\(.*\)|APP_PATH=/home/$USERNAME/.maraschino|" /etc/init.d/maraschino
 sed -i "s|RUN_AS=\(.*\)|RUN_AS=$USERNAME|" /etc/init.d/maraschino
 update-rc.d maraschino defaults
