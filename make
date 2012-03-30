@@ -47,7 +47,7 @@ if [ ! -f "iso/${BASEISO}" ]; then
    fi
 
    # get the base iso image
-   wget -P iso http://downloads.sourceforge.net/project/turnkeylinux/turnkey-$BASEAPP/$TKLVER/$BASEISO
+   wget -P iso http://readynas/webserver/turnkey/turnkeylinux/iso/turnkey-$BASEAPP-$TKLVER.iso
 fi
 
 if [ ! -d build ]; then
