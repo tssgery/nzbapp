@@ -1,31 +1,42 @@
 #! /bin/sh
 
-# Author: RuudBurger
-# Edited by: daemox
-# Details: Cleaned up script to make it easier to enter in the USER info for the guide on Ainer.org.
-# Last updated: August 3, 2011
-
 ### BEGIN INIT INFO
-# Provides:          CouchPotato application instance
-# Required-Start:    $all
-# Required-Stop:     $all
+# Provides:          couchpotato
+# Required-Start:    $local_fs $network $remote_fs
+# Required-Stop:     $local_fs $network $remote_fs
+# Should-Start:      $NetworkManager
+# Should-Stop:       $NetworkManager
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: starts instance of CouchPotato
 # Description:       starts instance of CouchPotato using start-stop-daemon
 ### END INIT INFO
 
-#Required -- Must be changed!
-USER="nzb" #Set Ubuntu or Linux Mint username here.
+############### EDIT ME ##################
+# path to app
+APP_PATH=/home/nzb/.couchpotato/
 
-#Required -- Defaults provided (only change if you know you need to!).
+# user
+RUN_AS=nzb
+
+# path to python bin
 DAEMON=/usr/bin/python
-DAEMON_OPTS=" CouchPotato.py -q"
-NAME=couchpotato
-DESC=CouchPotato
-PID_FILE=/var/run/couchpotato.pid
 
-#Script -- No changes should be needed below!
+# Path to store PID file
+PID_FILE=/var/run/couchpotato/server.pid
+PID_PATH=$(dirname $PID_FILE)
+
+# script name
+NAME=couchpotato
+
+# app name
+DESC=CouchPotato
+
+# startup args
+DAEMON_OPTS=" CouchPotato.py --daemon --pid_file=${PID_FILE}"
+
+############### END EDIT ME ##################
+
 test -x $DAEMON || exit 0
 
 set -e
@@ -33,20 +44,19 @@ set -e
 case "$1" in
   start)
         echo "Starting $DESC"
-        start-stop-daemon -d /home/$USER/.couchpotato -c $USER --start --background --pidfile $PID_FILE  --make-pidfile --exec $DAEMON -- $DAEMON_OPTS
+        rm -rf $PID_PATH || return 1
+        install -d --mode=0755 -o $RUN_AS $PID_PATH || return 1
+        start-stop-daemon -d $APP_PATH -c $RUN_AS --start --background --pidfile $PID_FILE --exec $DAEMON -- $DAEMON_OPTS
         ;;
   stop)
         echo "Stopping $DESC"
-        start-stop-daemon --stop --pidfile $PID_FILE
-        rm $PID_FILE
+        start-stop-daemon --stop --pidfile $PID_FILE --retry 15
         ;;
 
   restart|force-reload)
         echo "Restarting $DESC"
-        start-stop-daemon --stop --pidfile $PID_FILE
-        rm $PID_FILE
-        sleep 15
-        start-stop-daemon -d /home/$USER/.couchpotato -c $USER --start --background --pidfile $PID_FILE  --make-pidfile --exec $DAEMON -- $DAEMON_OPTS
+        start-stop-daemon --stop --pidfile $PID_FILE --retry 15
+        start-stop-daemon -d $APP_PATH -c $RUN_AS --start --background --pidfile $PID_FILE --exec $DAEMON -- $DAEMON_OPTS
         ;;
   *)
         N=/etc/init.d/$NAME

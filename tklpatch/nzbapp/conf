@@ -61,16 +61,16 @@ mv /home/$USERNAME/config/.sickbeard/config.ini /home/$USERNAME/.sickbeard
 mv /home/$USERNAME/config/.sickbeard/autoProcessTV/autoProcessTV.cfg /home/$USERNAME/.sickbeard/autoProcessTV/autoProcessTV.cfg
 
 ####################################################
-# INSTALL COUCHPOTATO 
+# INSTALL COUCHPOTATO SERVER 
 ####################################################
 cd /home/$USERNAME
-git clone git://github.com/RuudBurger/CouchPotato.git .couchpotato
+git clone git://github.com/RuudBurger/CouchPotatoServer.git .couchpotato
 chown -R $USERNAME:$GROUPNAME .couchpotato
 
 # set it to start automatically
 update-rc.d couchpotato defaults
 
-mv /home/$USERNAME/config/.couchpotato/config.ini /home/$USERNAME/.couchpotato
+mv /home/$USERNAME/config/.couchpotato/settings.conf /home/$USERNAME/.couchpotato
 
 ####################################################
 # INSTALL  HEADPHONES
