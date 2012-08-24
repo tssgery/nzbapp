@@ -4,6 +4,10 @@
 # - tklpatch tar.gz file
 # - installable iso image
 #
+#
+# Now tracking changes with reviewboard
+#
+
 
 APPNAME=nzbapp
 BASEAPP=fileserver
