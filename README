@@ -42,7 +42,5 @@ OR
 
 by patching the installable ISO image of the distribution
 
-tklpatch turnkey-fileserver-11.2-lucid-x86.iso tklpatch/nzbapp
-or
-tklpatch turnkey-fileserver-11.3-lucid-x86.iso tklpatch/nzbapp
+tklpatch turnkey-fileserver-12.0-squeeze-x86.iso tklpatch/nzbapp
 
