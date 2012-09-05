@@ -29,9 +29,12 @@ DEBIAN_FRONTEND=noninteractive apt-get -y \
 ####################################################
 # INSTALL SABNZBD
 ####################################################
-# add the repo 
-add-apt-repository ppa:jcfp/ppa
+
+echo "deb http://ppa.launchpad.net/jcfp/ppa/ubuntu lucid main" | tee -a /etc/apt/sources.list
+apt-key adv --keyserver hkp://pool.sks-keyservers.net:11371 --recv-keys 0x98703123E0F52B2BE16D586EF13930B14BB9F05F
 apt-get update
+# aptitude --with-recommends install sabnzbdplus 
+
 # install SABnzbd
 DEBIAN_FRONTEND=noninteractive apt-get -y \
     -o DPkg::Options::=--force-confdef \
@@ -42,7 +45,10 @@ DEBIAN_FRONTEND=noninteractive apt-get -y \
 update-rc.d sabnzbdplus defaults
 
 # move in the config file
-mkdir /home/$USERNAME/.sabnzbd
+if [ ! -d "/home/$USERNAME/.sabnzbd" ]; then
+   mkdir /home/$USERNAME/.sabnzbd
+fi
+
 chown -R $USERNAME:$GROUPNAME /home/$USERNAME/.sabnzbd
 mv /home/$USERNAME/config/.sabnzbd/sabnzbd.ini /home/$USERNAME/.sabnzbd/sabnzbd.ini
 
@@ -101,8 +107,8 @@ DEBIAN_FRONTEND=noninteractive apt-get -y \
 
 cd /home/$USERNAME
 git clone https://github.com/mrkipling/maraschino.git .maraschino
-cp .maraschino/settings_example.py .maraschino/settings.py
-sed -i "s|DATABASE =\(.*\)|DATABASE='/home/$USERNAME/.maraschino/maraschino.db'|" .maraschino/settings.py
+# cp .maraschino/settings_example.py .maraschino/settings.py
+# sed -i "s|DATABASE =\(.*\)|DATABASE='/home/$USERNAME/.maraschino/maraschino.db'|" .maraschino/settings.py
 # set it to start automatically
 cp .maraschino/initd /etc/init.d/maraschino
 chmod +x /etc/init.d/maraschino
