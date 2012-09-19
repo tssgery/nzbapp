@@ -49,6 +49,10 @@ update-rc.d sabnzbdplus defaults
 # INSTALL SICKBEARD
 ####################################################
 cd /home/$USERNAME
+# oddly enough, sometimes the .sickbeard directory does not get cleaned up
+if [ -d .sickbeard ]; then
+  rm -rf .sickbeard
+fi
 git clone git://github.com/midgetspy/Sick-Beard.git .sickbeard
 
 # set it to start automatically
