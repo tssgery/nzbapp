@@ -16,7 +16,7 @@ chown -R $USERNAME:$GROUPNAME /home/$USERNAME
 # Change ownership of log folders
 chown -R $USERNAME:$GROUPNAME /var/log/sabnzbdplus
 chown -R $USERNAME:$GROUPNAME /var/log/sickbeard
-chown -R $USERNAME:$GROUPNAME /var/log/couchpotato #TODO: Configure couchpotato logs when available
+chown -R $USERNAME:$GROUPNAME /var/log/couchpotato 
 chown -R $USERNAME:$GROUPNAME /var/log/headphones 
 
 # add the python installation tools and sudo
@@ -33,7 +33,6 @@ DEBIAN_FRONTEND=noninteractive apt-get -y \
 echo "deb http://ppa.launchpad.net/jcfp/ppa/ubuntu lucid main" | tee -a /etc/apt/sources.list
 apt-key adv --keyserver hkp://pool.sks-keyservers.net:11371 --recv-keys 0x98703123E0F52B2BE16D586EF13930B14BB9F05F
 apt-get update
-# aptitude --with-recommends install sabnzbdplus 
 
 # install SABnzbd
 DEBIAN_FRONTEND=noninteractive apt-get -y \
@@ -44,13 +43,6 @@ DEBIAN_FRONTEND=noninteractive apt-get -y \
 # set it to start automatically
 update-rc.d sabnzbdplus defaults
 
-# move in the config file
-if [ ! -d "/home/$USERNAME/.sabnzbd" ]; then
-   mkdir /home/$USERNAME/.sabnzbd
-fi
-
-chown -R $USERNAME:$GROUPNAME /home/$USERNAME/.sabnzbd
-mv /home/$USERNAME/config/.sabnzbd/sabnzbd.ini /home/$USERNAME/.sabnzbd/sabnzbd.ini
 
 
 ####################################################
@@ -58,7 +50,6 @@ mv /home/$USERNAME/config/.sabnzbd/sabnzbd.ini /home/$USERNAME/.sabnzbd/sabnzbd.
 ####################################################
 cd /home/$USERNAME
 git clone git://github.com/midgetspy/Sick-Beard.git .sickbeard
-chown -R $USERNAME:$GROUPNAME .sickbeard
 
 # set it to start automatically
 update-rc.d sickbeard defaults
@@ -71,7 +62,6 @@ mv /home/$USERNAME/config/.sickbeard/autoProcessTV/autoProcessTV.cfg /home/$USER
 ####################################################
 cd /home/$USERNAME
 git clone git://github.com/RuudBurger/CouchPotatoServer.git .couchpotato
-chown -R $USERNAME:$GROUPNAME .couchpotato
 
 # set it to start automatically
 update-rc.d couchpotato defaults
@@ -83,7 +73,6 @@ mv /home/$USERNAME/config/.couchpotato/settings.conf /home/$USERNAME/.couchpotat
 ####################################################
 cd /home/$USERNAME
 git clone git://github.com/rembo10/headphones.git .headphones
-chown -R $USERNAME:$GROUPNAME .headphones
 
 # set it to start automatically
 cp .headphones/init.ubuntu /etc/init.d/headphones
@@ -107,16 +96,13 @@ DEBIAN_FRONTEND=noninteractive apt-get -y \
 
 cd /home/$USERNAME
 git clone https://github.com/mrkipling/maraschino.git .maraschino
-# cp .maraschino/settings_example.py .maraschino/settings.py
-# sed -i "s|DATABASE =\(.*\)|DATABASE='/home/$USERNAME/.maraschino/maraschino.db'|" .maraschino/settings.py
-# set it to start automatically
+mv /home/$USERNAME/config/.maraschino/settings.py /home/$USERNAME/.maraschino
 cp .maraschino/initd /etc/init.d/maraschino
 chmod +x /etc/init.d/maraschino
 mv /home/nzb/maraschino.db /home/nzb/.maraschino
 sed -i "s|APP_PATH=\(.*\)|APP_PATH=/home/$USERNAME/.maraschino|" /etc/init.d/maraschino
 sed -i "s|RUN_AS=\(.*\)|RUN_AS=$USERNAME|" /etc/init.d/maraschino
 update-rc.d maraschino defaults
-chown -R $USERNAME:$GROUPNAME .maraschino
 
 cp /home/$USERNAME/config/lighttpd/lighttpd.conf /etc/lighttpd
 
@@ -134,13 +120,11 @@ chmod -R 777 /srv/storage
 # iptables -A INPUT -i eth0 -p tcp -m multiport --dports 8080,8081,8085 -m state --state NEW,ESTABLISHED -j ACCEPT
 
 # Create the service file
-echo "Maraschino:     http://nzbapp" > /etc/confconsole/services.txt
-echo "File Manager:   http://nzbapp/extplorer" >> /etc/confconsole/services.txt
-echo "Web Shell:      http://nzbapp:12320" >> /etc/confconsole/services.txt
-echo "Webmin:         http://nzbapp:12321" >> /etc/confconsole/services.txt
-echo "SMB/CIFS:       nzbapp (ports 139/445)" >> /etc/confconsole/services.txt
-echo " " >> /etc/confconsole/services.txt
-echo "IP Address:     \$ipaddr " >> /etc/confconsole/services.txt
+echo "Maraschino:     http://\$ipaddr"            > /etc/confconsole/services.txt
+echo "File Manager:   http://\$ipaddr/extplorer" >> /etc/confconsole/services.txt
+echo "Web Shell:      http://\$ipaddr:12320"     >> /etc/confconsole/services.txt
+echo "Webmin:         http://\$ipaddr:12321"     >> /etc/confconsole/services.txt
+echo "SMB/CIFS:       nzbapp (ports 139/445)"    >> /etc/confconsole/services.txt
 
 ####################################################
 # done!
