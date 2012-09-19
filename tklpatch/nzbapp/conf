@@ -24,7 +24,7 @@ apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get -y \
     -o DPkg::Options::=--force-confdef \
     -o DPkg::Options::=--force-confold \
-    install python-software-properties sudo
+    install python-software-properties sudo lighttpd
 
 ####################################################
 # INSTALL SABNZBD
@@ -102,10 +102,11 @@ cd /home/$USERNAME
 git clone https://github.com/mrkipling/maraschino.git .maraschino
 mv /home/$USERNAME/config/.maraschino/settings.py /home/$USERNAME/.maraschino
 cp .maraschino/initd /etc/init.d/maraschino
+cp .maraschino/default /etc/default/maraschino
 chmod +x /etc/init.d/maraschino
 mv /home/nzb/maraschino.db /home/nzb/.maraschino
-sed -i "s|APP_PATH=\(.*\)|APP_PATH=/home/$USERNAME/.maraschino|" /etc/init.d/maraschino
-sed -i "s|RUN_AS=\(.*\)|RUN_AS=$USERNAME|" /etc/init.d/maraschino
+sed -i "s|APP_PATH=\(.*\)|APP_PATH=/home/$USERNAME/.maraschino|" /etc/default/maraschino
+sed -i "s|RUN_AS=\(.*\)|RUN_AS=$USERNAME|" /etc/default/maraschino
 update-rc.d maraschino defaults
 
 cp /home/$USERNAME/config/lighttpd/lighttpd.conf /etc/lighttpd
