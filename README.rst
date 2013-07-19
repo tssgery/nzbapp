@@ -1,46 +1,50 @@
-File Server - Simple Network Attached Storage
+NZBAPP - prebuilt appliance to utilize NZB files
 =============================================
 
-An easy to use file server that combines Windows-compatible network file
-sharing with an advanced web based file manager and includes support for
-SMB, SFTP and rsync file transfer protocols. The server is configured to
-allow server users to manage files in private or public storage. Based
-on Samba and AjaXplorer.
+Based upon the turnkey linux fileserver appliance...
 
-This appliance includes all the standard features in `TurnKey Core`_,
-and on top of that:
+This is a project for building a Turnkey Linux patch to configure a
+Turnkey Linux 12.1 installation along with the following additions:
 
-- SSL support out of the box.
-- Webmin module for configuring Samba.
-- Includes popular compression support (zip, rar, bz2).
-- Includes flip to convert text file endings between UNIX and DOS
-  formats.
-- File server (`Samba`_) configurations:
-   
-   - Preconfigured wordgroup: WORKGROUP
-   - Preconfigured netbios name: FILESERVER
-   - Configured Samba and UNIX users/groups synchronization (CLI and
-     Webmin).
-   - Configured root as administrative samba user.
-   - Configured shares:
-      
-      - Users home directory.
-      - Public storage.
-      - CD-ROM with automount and umount hooks (/media/cdrom).
+- SABnzbd
+- CouchPotato (for locating NZB files for movies)
+- Sickbeard (for locating NZB files for TV shows)
+- Headphones (for locating NZB files for music releases)
+- Maraschino as a front end
 
-- Access your files securely from anywhere via `AjaXplorer`_:
-   
-   - Rich web GUI, with online previews of major formats and drag-n-drop
-     support.
-   - Dedicated `iOS`_ and `Android`_ apps for on-the-go access.
-   - Pre-configured multi-authentication (Local and Samba).
-   - Pre-configured repositories (storage, user home directories).
 
-- Default storage: */srv/storage*
-- Accessing file server via samba on the command line::
 
-    smbclient //1.0.0.61/storage -Uroot
-    mount -t cifs //1.0.0.61/storage /mnt -o username=root,password=PASSWORD
+NOTES
+==================================================================
+nzbapp is configured as follows:
+- DNS much be configured. During installation you will be prompted
+  for the hostname of the NZBAPP appliance. DNS resolution to that
+  hostname must be available for all clients accessing the appliance.
+  This can be done by configuring it with DNS or by adding an entry
+  in the clients /etc/hosts (or \Windows\system32\drivers\etc\hosts)
+  file
+- complete and incomplete binaries are being placed in /srv/storage
+  if additional space is needed, it may be best to either create
+  an LVM at initial installtion time OR add a second disk to the 
+  installation, create a filesystem and mount it on /srv/storage
+- You must run through the SABnzbd setup wizard at:
+      http://<ipaddress>:8080
+
+
+DONATIONS
+==================================================================
+If you want to send donations to keep this work going, please send them to
+the authors of the included programs and/or Turnkey Linux.
+They are the heroes in this effort, not me.
+
+
+USAGE
+==================================================================
+This patch needs to built with the Turnkey Linux TKLdev appliance
+
+More information can be found at:
+http://http://www.turnkeylinux.org/tkldev
+
 
 Credentials *(passwords set at first boot)*
 -------------------------------------------
@@ -52,8 +56,3 @@ Credentials *(passwords set at first boot)*
    - username **root** (Samba)
 
 
-.. _TurnKey Core: http://www.turnkeylinux.org/core
-.. _Samba: http://www.samba.org/samba/what_is_samba.html
-.. _AjaXplorer: http://ajaxplorer.info
-.. _iOS: http://ajaxplorer.info/extensions/ios-client/
-.. _Android: http://ajaxplorer.info/extensions/android/
