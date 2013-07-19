@@ -49,10 +49,13 @@ http://http://www.turnkeylinux.org/tkldev
 Credentials *(passwords set at first boot)*
 -------------------------------------------
 
+-  nzb user: username **nzb**
 -  Webmin, Webshell, SSH, Samba: username **root**
 -  Web based file manager (AjaXplorer):
    
    - username **admin** (Local)
    - username **root** (Samba)
+
+
 
 
