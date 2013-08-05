@@ -1,8 +1,11 @@
-#!/bin/bash -ex
+#!/bin/bash -e
 
 HOSTNAME=nzbapp
 USERNAME=nzb
 GROUPNAME=nzb
+
+# get the turnkey version
+DEBVER=`cat /etc/debian_version`
 
 # set hostname
 echo "$HOSTNAME" > /etc/hostname
@@ -34,11 +37,19 @@ echo "deb http://ppa.launchpad.net/jcfp/ppa/ubuntu lucid main" | tee -a /etc/apt
 apt-key adv --keyserver hkp://pool.sks-keyservers.net:11371 --recv-keys 0x98703123E0F52B2BE16D586EF13930B14BB9F05F
 apt-get update
 
+PACKAGES="sabnzbdplus sabnzbdplus-theme-mobile python-pyopenssl unrar par2 php5-curl"
+if [[ "$DEBVER" == *7.* ]]; then
+   echo "Installing packages for Debian ver 7.x"
+   PACKAGES="sabnzbdplus sabnzbdplus-theme-mobile python-openssl unrar par2 php5-curl"
+fi
+
+echo "Packages for ${DEBVER}: ${PACKAGES}"
+
 # install SABnzbd
 DEBIAN_FRONTEND=noninteractive apt-get -y \
     -o DPkg::Options::=--force-confdef \
     -o DPkg::Options::=--force-confold \
-    install sabnzbdplus sabnzbdplus-theme-mobile python-pyopenssl unrar par2 php5-curl 
+    install ${PACKAGES} 
 
 # set it to start automatically
 update-rc.d sabnzbdplus defaults
