@@ -14,6 +14,7 @@ sed -i "s|127.0.1.1 \(.*\)|127.0.1.1 $HOSTNAME|" /etc/hosts
 # create the nzb userid (which all the nzb daemons run as)
 groupadd $GROUPNAME
 useradd -c "NZB App userid" -d /home/$USERNAME -g $GROUPNAME -m -s /bin/bash "$USERNAME"
+
 chown -R $USERNAME:$GROUPNAME /home/$USERNAME
 
 # Change ownership of log folders
@@ -28,6 +29,9 @@ DEBIAN_FRONTEND=noninteractive apt-get -y \
     -o DPkg::Options::=--force-confdef \
     -o DPkg::Options::=--force-confold \
     install python-software-properties sudo 
+
+# add our user to the sudoers list
+echo "${USERNAME}    ALL=(ALL:ALL) ALL" > /etc/sudoers.d/${USERNAME}
 
 ####################################################
 # INSTALL SABNZBD
@@ -121,6 +125,7 @@ cp .htpc.io/initd /etc/init.d/htpc.io
 chmod +x /etc/init.d/htpc.io
 sed -i "s|APP_PATH=\(.*\)|APP_PATH=/home/$USERNAME/.htpc.io|" /etc/init.d/htpc.io
 sed -i "s|RUN_AS=\(.*\)|RUN_AS=$USERNAME|" /etc/init.d/htpc.io
+sed -i "s|PID_FILE=\(.*\)|PID_FILE=/tmp/htpcmanager.pid|" /etc/init.d/htpc.io
 update-rc.d htpc.io defaults
 
 
