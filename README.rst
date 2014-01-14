@@ -18,11 +18,11 @@ NOTES
 ==================================================================
 nzbapp is configured as follows:
 - DNS must be configured. During installation you will be prompted
-  for the hostname of the NZBAPP appliance. DNS resolution to that
-  hostname must be available for all clients accessing the appliance.
-  This can be done by configuring it with DNS or by adding an entry
-  in the clients /etc/hosts (or \Windows\system32\drivers\etc\hosts)
-  file
+for the hostname of the NZBAPP appliance. DNS resolution to that
+hostname must be available for all clients accessing the appliance.
+This can be done by configuring it with DNS or by adding an entry
+in the clients /etc/hosts (or \Windows\system32\drivers\etc\hosts)
+file
 - complete and incomplete binaries are being placed in /srv/storage
   if additional space is needed, it may be best to either create
   an LVM at initial installtion time OR add a second disk to the 
