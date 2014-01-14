@@ -28,11 +28,11 @@ nzbapp is configured as follows:
   an LVM at initial installtion time OR add a second disk to the 
   installation, create a filesystem and mount it on /srv/storage
 - You must configure each application with their own webui
-     http://<ipaddress>/couchpotato for CouchPotato
-     http://<ipaddress>/sickbeard for sickbeard
-     http://<ipaddress>/headphones for Headphones
+     - http://<ipaddress>/couchpotato for CouchPotato
+     - http://<ipaddress>/sickbeard for sickbeard
+     - http://<ipaddress>/headphones for Headphones
 - Run through the SABnzbd setup wizard at:
-     http://<ipaddress>:8080
+     - http://<ipaddress>:8080
 
 
 DONATIONS
