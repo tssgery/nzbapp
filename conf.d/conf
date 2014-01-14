@@ -99,30 +99,32 @@ mv /home/$USERNAME/config/.headphones/config.ini /home/$USERNAME/.headphones
 
 
 ####################################################
-# INSTALL MARASCHINO
+# INSTALL HTPC.IO
 ####################################################
 # install dependencies
 DEBIAN_FRONTEND=noninteractive apt-get -y \
     -o DPkg::Options::=--force-confdef \
     -o DPkg::Options::=--force-confold \
     install \
-    sqlite3
+    sqlite3 libjpeg8 libjpeg8-dev libpng-dev libfreetype6 libfreetype6-dev zlib1g-dev \
+    python-pip python2.7-dev build-essential python-imaging
 
+sudo ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/libz.so
+sudo ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib/libjpeg.so
+sudo ln -s /usr/lib/x86_64-linux-gnu/libfreetype.so /usr/lib/libfreetype.so
+
+pip install PIL
 
 cd /home/$USERNAME
-git clone https://github.com/mrkipling/maraschino.git .maraschino
-mv /home/$USERNAME/config/.maraschino/settings.py /home/$USERNAME/.maraschino
-cp .maraschino/initd /etc/init.d/maraschino
-cp .maraschino/default /etc/default/maraschino
-chmod +x /etc/init.d/maraschino
-mv /home/nzb/maraschino.db /home/nzb/.maraschino
-sed -i "s|APP_PATH=\(.*\)|APP_PATH=/home/$USERNAME/.maraschino|" /etc/default/maraschino
-sed -i "s|RUN_AS=\(.*\)|RUN_AS=$USERNAME|" /etc/default/maraschino
-update-rc.d maraschino defaults
+git clone https://github.com/styxit/HTPC-Manager .htpc.io 
+cp .htpc.io/initd /etc/init.d/htpc.io
+chmod +x /etc/init.d/htpc.io
+sed -i "s|APP_PATH=\(.*\)|APP_PATH=/home/$USERNAME/.htpc.io|" /etc/init.d/htpc.io
+sed -i "s|RUN_AS=\(.*\)|RUN_AS=$USERNAME|" /etc/init.d/htpc.io
+update-rc.d htpc.io defaults
+
 
 cp /home/$USERNAME/config/lighttpd/lighttpd.conf /etc/lighttpd
-
-
 chown -R $USERNAME:$GROUPNAME /home/$USERNAME
 
 ####################################################
@@ -136,11 +138,14 @@ chmod -R 777 /srv/storage
 # iptables -A INPUT -i eth0 -p tcp -m multiport --dports 8080,8081,8085 -m state --state NEW,ESTABLISHED -j ACCEPT
 
 # Create the service file
-echo "Maraschino:     http://\$ipaddr"            > /etc/confconsole/services.txt
-echo "File Manager:   http://\$ipaddr/extplorer" >> /etc/confconsole/services.txt
-echo "Web Shell:      http://\$ipaddr:12320"     >> /etc/confconsole/services.txt
-echo "Webmin:         http://\$ipaddr:12321"     >> /etc/confconsole/services.txt
-echo "SMB/CIFS:       nzbapp (ports 139/445)"    >> /etc/confconsole/services.txt
+echo "HTPC:           http://\$ipaddr"              > /etc/confconsole/services.txt
+echo "Sabnzbd:        http://\$ipaddr/sabnzbd"     >> /etc/confconsole/services.txt
+echo "CouchPotato:    http://\$ipaddr/couchpotato" >> /etc/confconsole/services.txt
+echo "Sickbeard:      http://\$ipaddr/sickbeard"   >> /etc/confconsole/services.txt
+echo "File Manager:   http://\$ipaddr/extplorer"   >> /etc/confconsole/services.txt
+echo "Web Shell:      http://\$ipaddr:12320"       >> /etc/confconsole/services.txt
+echo "Webmin:         http://\$ipaddr:12321"       >> /etc/confconsole/services.txt
+echo "SMB/CIFS:       nzbapp (ports 139/445)"      >> /etc/confconsole/services.txt
 
 ####################################################
 # done!

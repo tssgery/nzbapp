@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash 
 # copy configuration from SABnzbd to CouchPotato and SickBeard
 
 function randompass () {
@@ -37,7 +37,7 @@ sed -i "s|SAB_NZBKEY|$SAB_NZBKEY|" $CONFIG
 CONFIG=/home/nzb/.sickbeard/config.ini
 sed -i "s|SAB_APIKEY|$SAB_APIKEY|" $CONFIG
 sed -i "s|SAB_NZBKEY|$SAB_NZBKEY|" $CONFIG
-sed -i "s|SICK_APIKEY|$SAB_NZBKEY|" $CONFIG
+sed -i "s|SICK_APIKEY|$SICK_NZBKEY|" $CONFIG
 
 # replace the keys in the Headphones config file
 CONFIG=/home/nzb/.headphones/config.ini
@@ -53,16 +53,25 @@ echo $SAB_APIKEY > /home/nzb/SAB_APIKEY
 echo $SAB_NZBKEY > /home/nzb/SAB_NZBKEY
 echo $SICK_APIKEY > /home/nzb/SICK_APIKEY
 
-# put all the entries into the maraschone db as well
-CONFIG=/home/nzb/init_maraschino.sql
-cd /home/nzb/.maraschino
+# put all the entries into the htpc db as well
+service htpc.io stop
+CONFIG=/home/nzb/init_htpc.io.sql
+cd /home/nzb/.htpc.io
+if [ ! -d userdata ]; then
+   mkdir userdata
+fi 
+mv /home/nzb/database.db userdata/
+chown -R nzb:nzb /home/nzb
+
+sed -i "s|APP_PORT|7000|g" $CONFIG
 sed -i "s|SAB_APIKEY|$SAB_APIKEY|g" $CONFIG
 sed -i "s|SAB_NZBKEY|$SAB_NZBKEY|g" $CONFIG
 sed -i "s|SICK_APIKEY|$SICK_APIKEY|g" $CONFIG
 sed -i "s|NZBAPP_HOSTNAME|$HOSTNAME|g" $CONFIG
-sqlite3 maraschino.db < /home/nzb/init_maraschino.sql
+sqlite3 userdata/database.db < /home/nzb/init_htpc.io.sql
+
+service htpc.io start
 
 # restart the lighthttpd daemon
 /etc/init.d/lighttpd restart
-
 
