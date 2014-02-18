@@ -51,7 +51,7 @@ USAGE
 This patch needs to built with the Turnkey Linux TKLdev appliance
 
 More information can be found at:
-http://http://www.turnkeylinux.org/tkldev
+http://www.turnkeylinux.org/tkldev
 
 
 Credentials *(passwords set at first boot)*
