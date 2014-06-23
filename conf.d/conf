@@ -94,7 +94,7 @@ cd /home/$USERNAME
 git clone git://github.com/rembo10/headphones.git .headphones
 
 # set it to start automatically
-cp .headphones/init.ubuntu /etc/init.d/headphones
+cp .headphones/init-scripts/init.ubuntu /etc/init.d/headphones
 chmod +x /etc/init.d/headphones
 sed -i "s|APP_PATH=\(.*\)|APP_PATH=/home/$USERNAME/.headphones|" /etc/init.d/headphones
 update-rc.d headphones defaults
