@@ -143,11 +143,12 @@ chmod -R 777 /srv/storage
 # iptables -A INPUT -i eth0 -p tcp -m multiport --dports 8080,8081,8085 -m state --state NEW,ESTABLISHED -j ACCEPT
 
 # Create the service file
-echo "HTPC:           http://\$ipaddr"              > /etc/confconsole/services.txt
-echo "Sabnzbd:        http://\$ipaddr/sabnzbd"     >> /etc/confconsole/services.txt
-echo "CouchPotato:    http://\$ipaddr/couchpotato" >> /etc/confconsole/services.txt
-echo "Sickbeard:      http://\$ipaddr/sickbeard"   >> /etc/confconsole/services.txt
-echo "File Manager:   http://\$ipaddr/extplorer"   >> /etc/confconsole/services.txt
+echo "HTPC:           http://\$ipaddr:7000"         > /etc/confconsole/services.txt
+echo "Sabnzbd:        http://\$ipaddr:8080"        >> /etc/confconsole/services.txt
+echo "CouchPotato:    http://\$ipaddr:8085"        >> /etc/confconsole/services.txt
+echo "Sickbeard:      http://\$ipaddr:8081"        >> /etc/confconsole/services.txt
+echo "Headphones:     http://\$ipaddr:8181"        >> /etc/confconsole/services.txt
+# echo "File Manager:   http://\$ipaddr/extplorer"   >> /etc/confconsole/services.txt
 echo "Web Shell:      http://\$ipaddr:12320"       >> /etc/confconsole/services.txt
 echo "Webmin:         http://\$ipaddr:12321"       >> /etc/confconsole/services.txt
 echo "SMB/CIFS:       nzbapp (ports 139/445)"      >> /etc/confconsole/services.txt
