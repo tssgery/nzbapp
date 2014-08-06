@@ -111,7 +111,7 @@ DEBIAN_FRONTEND=noninteractive apt-get -y \
     -o DPkg::Options::=--force-confold \
     install \
     sqlite3 libjpeg8 libjpeg8-dev libpng-dev libfreetype6 libfreetype6-dev zlib1g-dev \
-    python-pip python2.7-dev build-essential python-imaging
+    python-pip python2.7-dev build-essential python-imaging cifs-utils
 
 sudo ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/libz.so
 sudo ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib/libjpeg.so
