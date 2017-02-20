@@ -46,6 +46,10 @@ if [[ "$DEBVER" == *7.* ]]; then
    echo "Installing packages for Debian ver 7.x"
    PACKAGES="sabnzbdplus sabnzbdplus-theme-mobile python-openssl unrar par2 php5-curl"
 fi
+if [[ "$DEBVER" == *8.* ]]; then
+   echo "Installing packages for Debian ver 8.x"
+   PACKAGES="sabnzbdplus sabnzbdplus-theme-mobile python-openssl unrar par2 php5-curl"
+fi
 
 echo "Packages for ${DEBVER}: ${PACKAGES}"
 
@@ -110,14 +114,14 @@ DEBIAN_FRONTEND=noninteractive apt-get -y \
     -o DPkg::Options::=--force-confdef \
     -o DPkg::Options::=--force-confold \
     install \
-    sqlite3 libjpeg8 libjpeg8-dev libpng-dev libfreetype6 libfreetype6-dev zlib1g-dev \
+    sqlite3 libjpeg62-turbo-dev libpng-dev libfreetype6 libfreetype6-dev zlib1g-dev \
     python-pip python2.7-dev build-essential python-imaging cifs-utils
 
 sudo ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/libz.so
 sudo ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib/libjpeg.so
 sudo ln -s /usr/lib/x86_64-linux-gnu/libfreetype.so /usr/lib/libfreetype.so
 
-pip install PIL
+# pip install PIL
 
 cd /home/$USERNAME
 git clone https://github.com/styxit/HTPC-Manager .htpc.io 
