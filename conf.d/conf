@@ -65,20 +65,16 @@ update-rc.d sabnzbdplus defaults
 
 
 ####################################################
-# INSTALL SICKBEARD
+# INSTALL SICKRAGE
 ####################################################
 cd /home/$USERNAME
-# oddly enough, sometimes the .sickbeard directory does not get cleaned up
-if [ -d .sickbeard ]; then
-  rm -rf .sickbeard
-fi
-git clone git://github.com/midgetspy/Sick-Beard.git .sickbeard
+[[ -d .sickbeard ]] && rm -rf .sickbeard
+git clone git://github.com/SickRage/SickRage.git .sickbeard
 
 # set it to start automatically
 update-rc.d sickbeard defaults
 
 mv /home/$USERNAME/config/.sickbeard/config.ini /home/$USERNAME/.sickbeard
-mv /home/$USERNAME/config/.sickbeard/autoProcessTV/autoProcessTV.cfg /home/$USERNAME/.sickbeard/autoProcessTV/autoProcessTV.cfg
 
 ####################################################
 # INSTALL COUCHPOTATO SERVER 
@@ -121,11 +117,11 @@ sudo ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/libz.so
 sudo ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib/libjpeg.so
 sudo ln -s /usr/lib/x86_64-linux-gnu/libfreetype.so /usr/lib/libfreetype.so
 
-# pip install PIL
+pip install psutil
 
 cd /home/$USERNAME
-git clone https://github.com/styxit/HTPC-Manager .htpc.io 
-cp .htpc.io/initd /etc/init.d/htpc.io
+git clone https://github.com/Hellowlol/HTPC-Manager .htpc.io
+cp .htpc.io/initscripts/initd /etc/init.d/htpc.io
 chmod +x /etc/init.d/htpc.io
 sed -i "s|APP_PATH=\(.*\)|APP_PATH=/home/$USERNAME/.htpc.io|" /etc/init.d/htpc.io
 sed -i "s|RUN_AS=\(.*\)|RUN_AS=$USERNAME|" /etc/init.d/htpc.io
@@ -150,7 +146,7 @@ chmod -R 777 /srv/storage
 echo "HTPC:           http://\$ipaddr:7000"         > /etc/confconsole/services.txt
 echo "Sabnzbd:        http://\$ipaddr:8080"        >> /etc/confconsole/services.txt
 echo "CouchPotato:    http://\$ipaddr:8085"        >> /etc/confconsole/services.txt
-echo "Sickbeard:      http://\$ipaddr:8081"        >> /etc/confconsole/services.txt
+echo "SickRage:       http://\$ipaddr:8081"        >> /etc/confconsole/services.txt
 echo "Headphones:     http://\$ipaddr:8181"        >> /etc/confconsole/services.txt
 # echo "File Manager:   http://\$ipaddr/extplorer"   >> /etc/confconsole/services.txt
 echo "Web Shell:      http://\$ipaddr:12320"       >> /etc/confconsole/services.txt
