@@ -9,7 +9,7 @@ function randompass () {
                 randompassLength=8
         fi
  
-        pass=</dev/urandom tr -dc a-f0-9 | head -c $randompassLength
+        pass=`</dev/urandom tr -dc a-f0-9 | head -c $randompassLength`
         echo $pass
 }
 
@@ -37,7 +37,7 @@ CONFIG=/home/nzb/.couchpotato/settings.conf
 sed -i "s|SAB_APIKEY|$SAB_APIKEY|" $CONFIG
 sed -i "s|SAB_NZBKEY|$SAB_NZBKEY|" $CONFIG
 sed -i "s|COUCH_APIKEY|$COUCH_APIKEY|" $CONFIG
-service couchpotato start
+/etc/init.d/couchpotato start
 
 # replace the keys in the SickBeard config file
 service sickbeard stop
